@@ -1,11 +1,38 @@
 <template>
     <div>
+        <el-row :gutter="30">
+            <el-col :span="6">
+                <el-input v-model="search.title" placeholder="请输入要搜索的内容" @change="fresh()"></el-input>
+            </el-col>
+            <el-col :span="6">
+                <el-switch
+                        v-model="search.star"
+                        active-color="#13ce66"
+                        active-text="按照收藏数排序"
+                        active-value="desc"
+                        inactive-value=""
+                         @change="fresh()"
+                        inactive-color="#ff4949">
+                </el-switch>
+            </el-col>
+            <el-col :span="6">
+                <el-switch
+                        v-model="search.view"
+                        active-color="#13ce66"
+                        active-text="按照观看数排序"
+                        active-value="desc"
+                        inactive-value=""
+                         @change="fresh()"
+                        inactive-color="#ff4949">
+                </el-switch>
+            </el-col>
+        </el-row>
         <el-row :gutter="20">
             <el-col :span="6" v-for="(v, index) in videos" :key="index" style="margin-bottom: 20px">
-                <router-link :to="`/video/${v.hash_id}`">
+                <router-link :to="`/video/${v.id}`">
                     <el-card :body-style="{ padding: '0px' }">
-                        <img :src="`https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png`" class="image">
-                        <!--                    <img :src="v.poster">-->
+                        <!--                        <img :src="`https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png`" class="image">-->
+                        <img :src="v.poster">
                         <div style="padding: 14px;white-space: nowrap; line-height: 1.5; overflow: hidden; text-overflow: ellipsis;">
                             <el-tooltip placement="top">
                                 <div slot="content">{{ v.title }}</div>
@@ -41,6 +68,11 @@
                     perPage: 12,
                     total: 0
                 },
+                search: {
+                    title: '',
+                    view: '',
+                    star: '',
+                },
                 videos: []
             }
         },
@@ -48,10 +80,8 @@
             this.fresh(this.paginate.page, this.paginate.perPage)
         },
         methods: {
-            fresh(page, perPage = this.paginate.perPage) {
-                console.log(page);
-                index(page, perPage).then(res => {
-                    console.log(res.data);
+            fresh(page = this.paginate.page, perPage = this.paginate.perPage) {
+                index(page, perPage, this.search).then(res => {
                     this.videos = res.data
                     this.paginate.total = res.meta.total
                 })
