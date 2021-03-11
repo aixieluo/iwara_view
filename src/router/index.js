@@ -28,12 +28,27 @@ const routes = [
     name: 'Video',
     component: () => import(/* webpackChunkName: "about" */ '../views/video/Show.vue')
   },
+  {
+    path: '/ggl/',
+    name: 'Video',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ggl/Index.vue'),
+    meta: {
+      title: '刮刮乐'
+    }
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to,from,next) =>{
+  if(to.meta.title){
+    document.title = to.meta.title
+  }
+  next();
 })
 
 export default router
