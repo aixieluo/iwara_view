@@ -29,7 +29,7 @@
         </el-row>
         <el-row :gutter="20">
             <el-col :span="6" v-for="(v, index) in videos" :key="index" style="margin-bottom: 20px">
-                <router-link :to="`/video/${v.id}`">
+                <router-link :to="`/video/${v.id}`" target="_blank">
                     <el-card :body-style="{ padding: '0px' }">
                         <!--                        <img :src="`https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png`" class="image">-->
                         <img :src="v.poster">
