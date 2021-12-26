@@ -15,6 +15,9 @@ export default {
     HelloWorld
   },
   mounted() {
+    this.$router.push({
+      path: 'ggl'
+    })
     console.log(process.env.VUE_APP_API);
   }
 }
